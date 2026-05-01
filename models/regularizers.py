@@ -26,7 +26,7 @@ class BaseRegularizer(nn.Module, abc.ABC):
             z_q: Constrained/Regularized latent representation to pass to decoder. 
                  Shape (B, latent_dim)
         """
-        # TODO: Mentees implement forward pass here (e.g., adding noise, quantizing, sparsifying)
+        # TODO: Implement forward pass here (e.g., adding noise, quantizing, sparsifying)
         pass
 
     @abc.abstractmethod
@@ -46,14 +46,14 @@ class BaseRegularizer(nn.Module, abc.ABC):
                 - 'reg_loss': The regularization penalty (e.g., KL divergence, sparsity penalty)
                 - 'total_loss': recon_loss + beta * reg_loss
         """
-        # TODO: Mentees implement loss computation here
+        # TODO: Implement loss computation here
         pass
 
 
 class IdentityRegularizer(BaseRegularizer):
     """
     A simple unregularized Autoencoder pass-through for testing the boilerplate.
-    Mentees can look at this as an example of the expected interface.
+    Look at this as an example of the expected interface.
     """
     def forward(self, z_e: torch.Tensor) -> torch.Tensor:
         return z_e

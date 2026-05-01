@@ -22,6 +22,7 @@ def parse_args():
     parser.add_argument('--beta', type=float, default=1.0, help='Weight for the regularization loss')
     parser.add_argument('--seed', type=int, default=42, help='Random seed for reproducibility')
     parser.add_argument('--disable_wandb', action='store_true', help='Disable wandb logging')
+    parser.add_argument('--entity', type=str, default='cirem', help='Wandb entity (username or team name)')
     return parser.parse_args()
 
 
@@ -69,7 +70,7 @@ def main():
 
     # Initialize wandb
     mode = 'disabled' if args.disable_wandb else 'online'
-    wandb.init(project="info-reg-testbench", config=vars(args), mode=mode)
+    wandb.init(project="info-reg-testbench", entity=args.entity, config=vars(args), mode=mode)
 
     # 1. Dataloaders
     train_loader, test_loader, in_channels, num_classes = get_dataloaders(args.dataset, args.batch_size)
@@ -78,7 +79,7 @@ def main():
     encoder = ConvEncoder(in_channels=in_channels, latent_dim=args.latent_dim).to(device)
     decoder = ConvDecoder(latent_dim=args.latent_dim, out_channels=in_channels).to(device)
     
-    # TODO: Mentees will swap IdentityRegularizer with their own implementations
+    # TODO: swap IdentityRegularizer with their own implementations
     regularizer_config = {'beta': args.beta}
     regularizer = IdentityRegularizer(latent_dim=args.latent_dim, config=regularizer_config).to(device)
     
